@@ -1,6 +1,5 @@
 #!/bin/bash
 
-mkdir -p build/clay && \
 /opt/homebrew/Cellar/llvm/19.1.7/bin/clang \
     -Wall \
     -Werror \
@@ -15,8 +14,8 @@ mkdir -p build/clay && \
     -Wl,--export=__heap_base \
     -Wl,--export=ACTIVE_RENDERER_INDEX \
     -Wl,--initial-memory=6553600 \
-    -o build/clay/index.wasm \
+    -o build/index.wasm \
     main.c && \
-cp index.html build/clay/index.html && \
-cp -r fonts/ build/clay/fonts && \
-cp -r images/ build/clay/images
+cp index.html build/index.html && \
+cp -r fonts/ build/fonts && \
+cp -r images/ build/images

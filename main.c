@@ -50,7 +50,7 @@ void LandingPage(DeviceType type){
                     CLAY_TEXT(CLAY_STRING("C'mon look down and see!"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
                 }
                 CLAY(CLAY_ID("RightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.40) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
-                    CLAY(CLAY_ID("RightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) }}), CLAY_IMAGE({ .sourceDimensions = {1080, 1080}, .sourceURL = CLAY_STRING("/clay/images/pfp.png")})) {}
+                    CLAY(CLAY_ID("RightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) }}), CLAY_IMAGE({ .sourceDimensions = {1080, 1080}, .sourceURL = CLAY_STRING("/images/pfp.png")})) {}
                 }
             }
         }
@@ -62,7 +62,7 @@ void LandingPage(DeviceType type){
                 CLAY_TEXT(CLAY_STRING("C'mon look down and see!"), CLAY_TEXT_CONFIG({ .fontSize = 32, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
             }
             CLAY(CLAY_ID("RightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.40) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
-                CLAY(CLAY_ID("RightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) }}), CLAY_IMAGE({ .sourceDimensions = {1080, 1080}, .sourceURL = CLAY_STRING("/clay/images/pfp.png")})) {}
+                CLAY(CLAY_ID("RightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) }}), CLAY_IMAGE({ .sourceDimensions = {1080, 1080}, .sourceURL = CLAY_STRING("/images/pfp.png")})) {}
             }
         }
     }
@@ -133,7 +133,7 @@ void DungeonMixPage(DeviceType type) {
                 }
                 CLAY(CLAY_ID("DungeonPageImageSpacer"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) } })) {}
                 CLAY(CLAY_ID("DungeonPageRightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.3) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
-                    CLAY(CLAY_ID("DungeonPageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {743, 1456}, .sourceURL = CLAY_STRING("/clay/images/dm.png") })) {}
+                    CLAY(CLAY_ID("DungeonPageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {743, 1456}, .sourceURL = CLAY_STRING("/images/dm.png") })) {}
                 }
             }
         }
@@ -147,7 +147,7 @@ void DungeonMixPage(DeviceType type) {
                 CLAY_TEXT(CLAY_STRING("It has simple save system, as well as money and selling system."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
             }
             CLAY(CLAY_ID("DungeonPageRightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 200) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
-                CLAY(CLAY_ID("DungeonPageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {743, 1456}, .sourceURL = CLAY_STRING("/clay/images/dm.png") } )) {}
+                CLAY(CLAY_ID("DungeonPageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {743, 1456}, .sourceURL = CLAY_STRING("/images/dm.png") } )) {}
             }
         }
     }
@@ -158,7 +158,7 @@ void LCNPage(DeviceType type){
         CLAY(CLAY_ID("LCNPageDesktop"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIT(.min = windowHeight - 50) }, .childAlignment = {0, CLAY_ALIGN_Y_CENTER}, .padding = {50,50,0,0} }),CLAY_RECTANGLE({ .color = COLOR_RED })) {
             CLAY(CLAY_ID("LCNPage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) }, .childAlignment = { 0, CLAY_ALIGN_Y_CENTER }, .padding = { 32,32,32, 32 }, .childGap = 32 }), CLAY_BORDER({ .left = { 2, COLOR_LIGHT }, .right = { 2, COLOR_LIGHT } })) {
                 CLAY(CLAY_ID("LCNPageLeftImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.5) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
-                    CLAY(CLAY_ID("LCNPageLeftImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {845, 503}, .sourceURL = CLAY_STRING("/clay/images/lcn.png") })) {}
+                    CLAY(CLAY_ID("LCNPageLeftImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {845, 503}, .sourceURL = CLAY_STRING("/images/lcn.png") })) {}
                 }
                 CLAY(CLAY_ID("LCNPageRightText"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.50) },.layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
                     CLAY_TEXT(CLAY_STRING("LCN (LuaConsoleNotepad)"), CLAY_TEXT_CONFIG({ .fontSize = 52, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_LIGHT }));
@@ -185,7 +185,7 @@ void LCNPage(DeviceType type){
                 CLAY_TEXT(CLAY_STRING("It also does not use a single library, everything is written manually (Maybe because there was no library to use :P)"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
             }
             CLAY(CLAY_ID("LCNPageRightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
-                CLAY(CLAY_ID("LCNPageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {845, 503}, .sourceURL = CLAY_STRING("/clay/images/lcn.png") } )) {}
+                CLAY(CLAY_ID("LCNPageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {845, 503}, .sourceURL = CLAY_STRING("/images/lcn.png") } )) {}
             }
         }
     }
@@ -207,7 +207,7 @@ void NixiePage(DeviceType type) {
                     }
                 }
                 CLAY(CLAY_ID("NixiePageRightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.5) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
-                    CLAY(CLAY_ID("NixiePageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {921, 392}, .sourceURL = CLAY_STRING("/clay/images/ntf.png") })) {}
+                    CLAY(CLAY_ID("NixiePageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {921, 392}, .sourceURL = CLAY_STRING("/images/ntf.png") })) {}
                 }
             }
         }
@@ -221,7 +221,7 @@ void NixiePage(DeviceType type) {
                 CLAY_TEXT(CLAY_STRING("It has basic control: Position, Size, Flicker (flicker like a light bulb), Clock mode and even more!"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
             }
             CLAY(CLAY_ID("NixiePageRightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
-                CLAY(CLAY_ID("NixiePageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {921, 392}, .sourceURL = CLAY_STRING("/clay/images/ntf.png") } )) {}
+                CLAY(CLAY_ID("NixiePageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {921, 392}, .sourceURL = CLAY_STRING("/images/ntf.png") } )) {}
             }
         }
     }
@@ -276,8 +276,7 @@ Clay_RenderCommandArray CreateLayout(bool mobileScreen) {
     CLAY(CLAY_ID("OuterContainer"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) } }), CLAY_RECTANGLE({ .color = COLOR_LIGHT })) {
         CLAY(CLAY_ID("Header"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIXED(50) }, .childAlignment = { 0, CLAY_ALIGN_Y_CENTER }, .childGap = 16, .padding = { 32,32,0,0 } })) {
             CLAY_TEXT(CLAY_STRING("I'm"), &imTextConfig);
-            CLAY(CLAY_ID("myName"),CLAY_LAYOUT({ .sizing = {CLAY_SIZING_FIXED(110)} }), CLAY_IMAGE({ .sourceDimensions = {512, 205}, .sourceURL = CLAY_STRING("/clay/images/aktr0s.png") })) {}
-            //CLAY_IMAGE({ .sourceDimensions = { 512, 205 }, .sourceURL = CLAY_STRING("/clay/images/aktr0s.png")});
+            CLAY(CLAY_ID("myName"),CLAY_LAYOUT({ .sizing = {CLAY_SIZING_FIXED(110)} }), CLAY_IMAGE({ .sourceDimensions = {512, 205}, .sourceURL = CLAY_STRING("/images/aktr0s.png") })) {}
             CLAY(CLAY_ID("Spacer"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_GROW(0) } })) {}
             if (!mobileScreen) {
                 CLAY(CLAY_LAYOUT({ .padding = {16, 16, 6, 6} }),
