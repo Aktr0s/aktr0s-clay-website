@@ -286,7 +286,7 @@ Clay_RenderCommandArray CreateLayout(bool mobileScreen) {
                     CLAY_TEXT(CLAY_STRING("Twitter"), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = {61, 26, 5, 255} }));
                 }
                 CLAY(CLAY_LAYOUT({ .padding = {16, 16, 6, 6} }),
-                    CLAY_RECTANGLE({ .cornerRadius = CLAY_CORNER_RADIUS(10), .link = CLAY_STRING("https://github.com/nicbarker/clay"), .color = Clay_Hovered() ? COLOR_LIGHT_HOVER : COLOR_LIGHT }),
+                    CLAY_RECTANGLE({ .cornerRadius = CLAY_CORNER_RADIUS(10), .link = CLAY_STRING("https://github.com/aktr0s"), .color = Clay_Hovered() ? COLOR_LIGHT_HOVER : COLOR_LIGHT }),
                     CLAY_BORDER_OUTSIDE_RADIUS(2, COLOR_BLUE, 10)
                 ) {
                     CLAY_TEXT(CLAY_STRING("Github"), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = {61, 26, 5, 255} }));
