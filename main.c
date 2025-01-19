@@ -158,10 +158,10 @@ void LCNPage(DeviceType type){
         CLAY(CLAY_ID("LCNPageDesktop"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIT(.min = windowHeight - 50) }, .childAlignment = {0, CLAY_ALIGN_Y_CENTER}, .padding = {50,50,0,0} }),CLAY_RECTANGLE({ .color = COLOR_RED })) {
             CLAY(CLAY_ID("LCNPage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) }, .childAlignment = { 0, CLAY_ALIGN_Y_CENTER }, .padding = { 32,32,32, 32 }, .childGap = 32 }), CLAY_BORDER({ .left = { 2, COLOR_LIGHT }, .right = { 2, COLOR_LIGHT } })) {
                 CLAY(CLAY_ID("LCNPageLeftImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.5) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
-                    CLAY(CLAY_ID("LCNPageLeftImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {845, 503}, .sourceURL = CLAY_STRING("/images/lcn.png") })) {}
+                        CLAY(CLAY_ID("LCNPageLeftImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) } }), CLAY_IMAGE({ .sourceDimensions = {845, 503}, .sourceURL = CLAY_STRING("/images/lcn.png") })) {}
                 }
                 CLAY(CLAY_ID("LCNPageRightText"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.50) },.layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
-                    CLAY_TEXT(CLAY_STRING("LCN (LuaConsoleNotepad)"), CLAY_TEXT_CONFIG({ .fontSize = 52, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_LIGHT }));
+                    CLAY_TEXT(CLAY_STRING("Lua Console Notepad (LCN)"), CLAY_TEXT_CONFIG({ .fontSize = 52, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_LIGHT }));
                     CLAY(CLAY_ID("LCNSpacer"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 16) } })) {}
                     CLAY_TEXT(CLAY_STRING("This is interesting and started as class assignment to make a notepad in whatever language that runs in terminal."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
                     CLAY_TEXT(CLAY_STRING("I wanted it to be portable and lightweight so it stayed in Lua even though i could use Java or Python"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
@@ -177,7 +177,7 @@ void LCNPage(DeviceType type){
     } else if (type == MOBILE) {
         CLAY(CLAY_ID("LCNPageMobile"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIT(.min = windowHeight - 50) }, .childAlignment = {CLAY_ALIGN_X_CENTER, CLAY_ALIGN_Y_CENTER}, .padding = {16,16,32, 32}, .childGap = 16 }),CLAY_RECTANGLE({ .color = COLOR_RED})) {
             CLAY(CLAY_ID("LCNPageLeftText"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
-                CLAY_TEXT(CLAY_STRING("LCN (LuaConsoleNotepad)"), CLAY_TEXT_CONFIG({ .fontSize = 48, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_LIGHT }));
+                CLAY_TEXT(CLAY_STRING("Lua Console Notepad (LCN)"), CLAY_TEXT_CONFIG({ .fontSize = 48, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_LIGHT }));
                 CLAY(CLAY_ID("LCNPageSpacer"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 16) } })) {}
                 CLAY_TEXT(CLAY_STRING("This is interesting and started as class assignment to make a notepad in whatever language that runs in terminal."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
                 CLAY_TEXT(CLAY_STRING("I wanted it to be portable and lightweight so it stayed in Lua even though i could use Java or Python"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
