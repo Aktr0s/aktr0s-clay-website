@@ -1,6 +1,13 @@
 #!/bin/bash
 
-/opt/homebrew/Cellar/llvm/19.1.7/bin/clang \
+# Get LLVM path from Homebrew
+LLVM_BIN="$(brew --prefix llvm)/bin/clang"
+
+# Ensure build directory exists
+mkdir -p build
+
+# Compile to WebAssembly
+"$LLVM_BIN" \
     -Wall \
     -Werror \
     -Os \
