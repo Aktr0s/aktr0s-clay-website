@@ -6,6 +6,8 @@
 
 double windowWidth = 1024, windowHeight = 768;
 float modelPageOneZRotation = 0;
+bool blink = false;
+float t = 0;
 uint32_t ACTIVE_RENDERER_INDEX = 0;
 
 const uint32_t FONT_ID_BODY_16 = 0;
@@ -29,7 +31,6 @@ const Clay_Color COLOR_TOP_BORDER_3 = (Clay_Color) {185,70,67, 255};
 const Clay_Color COLOR_TOP_BORDER_4 = (Clay_Color) {214, 125, 62, 255};
 const Clay_Color COLOR_TOP_BORDER_5 = (Clay_Color) {232,177,137, 255};
 
-
 #define RAYLIB_VECTOR2_TO_CLAY_VECTOR2(vector) (Clay_Vector2) { .x = (vector).x, .y = (vector).y }
 
 Clay_TextElementConfig headerTextConfig = (Clay_TextElementConfig) { .fontId = 2, .fontSize = 24, .textColor = {61, 26, 5, 255} };
@@ -40,14 +41,18 @@ typedef enum {
     DESKTOP
 } DeviceType;
 
-void LandingPage(DeviceType type){
+void LandingPage(DeviceType type, bool flick){
     if (type == DESKTOP) {
         CLAY(CLAY_ID("LandingPage1Desktop"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_GROW(0), .height = CLAY_SIZING_FIT(.min = windowHeight - 70) }, .childAlignment = {.y = CLAY_ALIGN_Y_CENTER}, .padding = {50,50,0,0} })) {
             CLAY(CLAY_ID("LandingPage1"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) }, .childAlignment = {.y = CLAY_ALIGN_Y_CENTER}, .padding = { 32,32,32, 32 }, .childGap = 32 }), CLAY_BORDER({ .left = { 2, COLOR_RED }, .right = { 2, COLOR_RED } })) {
                 CLAY(CLAY_ID("LeftText"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_PERCENT(0.55f) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
-                    CLAY_TEXT(CLAY_STRING("Hi! And welcome on my site. I’m a retro tech enthusiast and mainly C++ programmer with uncommon passions."), CLAY_TEXT_CONFIG({ .fontSize = 56, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("Hi, and welcome to my site! I'm a retro tech and electronics enthusiast, primarily programming in Java and C, with a passion for the obscure."), CLAY_TEXT_CONFIG({ .fontSize = 56, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
                     CLAY(CLAY_ID("LandingPageSpacer"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_GROW(0), .height = CLAY_SIZING_FIXED(32) } })) {}
-                    CLAY_TEXT(CLAY_STRING("C'mon look down and see!"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                    if (blink) {
+                        CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!_"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                    } else {
+                        CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                    }
                 }
                 CLAY(CLAY_ID("RightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.40) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
                     CLAY(CLAY_ID("RightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) }}), CLAY_IMAGE({ .sourceDimensions = {1080, 1080}, .sourceURL = CLAY_STRING("/images/pfp.webp")})) {}
@@ -57,9 +62,13 @@ void LandingPage(DeviceType type){
     } else if (type == MOBILE) {
         CLAY(CLAY_ID("LandingPage1Mobile"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { .width = CLAY_SIZING_GROW(0), .height = CLAY_SIZING_FIT(.min = windowHeight - 70) }, .childAlignment = {CLAY_ALIGN_X_CENTER, .y = CLAY_ALIGN_Y_CENTER}, .padding = { 16,16,32, 32 }, .childGap = 32 })) {
             CLAY(CLAY_ID("LeftText"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_GROW(0) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
-                CLAY_TEXT(CLAY_STRING("Hi! And welcome on my site. I’m a retro tech enthusiast and mainly C++ programmer with uncommon passions."), CLAY_TEXT_CONFIG({ .fontSize = 48, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
+                CLAY_TEXT(CLAY_STRING("Hi, and welcome to my site! I'm a retro tech and electronics enthusiast, primarily programming in Java and C, with a passion for the obscure."), CLAY_TEXT_CONFIG({ .fontSize = 48, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
                 CLAY(CLAY_ID("LandingPageSpacer"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_GROW(0), .height = CLAY_SIZING_FIXED(32) } })) {}
-                CLAY_TEXT(CLAY_STRING("C'mon look down and see!"), CLAY_TEXT_CONFIG({ .fontSize = 32, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                if (blink) {
+                    CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!_"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                } else {
+                    CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                }            
             }
             CLAY(CLAY_ID("RightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.40) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
                 CLAY(CLAY_ID("RightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) }}), CLAY_IMAGE({ .sourceDimensions = {1080, 1080}, .sourceURL = CLAY_STRING("/images/pfp.webp")})) {}
@@ -124,9 +133,9 @@ void DungeonMixPage(DeviceType type) {
                 CLAY(CLAY_ID("DungeonPageLeftText"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.5) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
                     CLAY_TEXT(CLAY_STRING("Dungeon Mix"), CLAY_TEXT_CONFIG({ .fontSize = 52, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
                     CLAY(CLAY_ID("DungeonPageSpacer"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 16) } })) {}
-                    CLAY_TEXT(CLAY_STRING("Very simple game that i began developing when i started C in my classes."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-                    CLAY_TEXT(CLAY_STRING("The 'Mix' gameplay is focused on imputing two numbers and calculating almost random value inflicted by inputed numbers."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-                    CLAY_TEXT(CLAY_STRING("It has simple save system, as well as money and selling system."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("A very simple game that I started developing when I began learning C in my classes."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("The gameplay, called 'Mix,' focuses on inputting two numbers and calculating a nearly random value influenced by the inputted numbers."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("It features a VERY simple save system, as well as a money and selling system."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
                     CLAY(CLAY_ID("LinkDungeonOuter"), CLAY_LAYOUT(), CLAY_RECTANGLE({ .link = CLAY_STRING("https://github.com/aktr0s/Dungeon-Mix"), .color = {0,0,0,0} })) {
                         CLAY_TEXT(CLAY_STRING("Click here to check github page."), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = COLOR_ORANGE }));
                     }
@@ -142,9 +151,9 @@ void DungeonMixPage(DeviceType type) {
             CLAY(CLAY_ID("DungeonPageLeftText"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
                 CLAY_TEXT(CLAY_STRING("Dungeon Mix"), CLAY_TEXT_CONFIG({ .fontSize = 48, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
                 CLAY(CLAY_ID("DungeonPageSpacer"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 16) } })) {}
-                CLAY_TEXT(CLAY_STRING("Very simple game that i began developing when i started C in my classes."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-                CLAY_TEXT(CLAY_STRING("The 'Mix' gameplay is focused on imputing two numbers and calculating almost random value inflicted by inputed numbers."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-                CLAY_TEXT(CLAY_STRING("It has simple save system, as well as money and selling system."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                CLAY_TEXT(CLAY_STRING("A very simple game that I started developing when I began learning C in my classes."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                CLAY_TEXT(CLAY_STRING("The gameplay, called 'Mix,' focuses on inputting two numbers and calculating a nearly random value influenced by the inputted numbers."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                CLAY_TEXT(CLAY_STRING("It features a VERY simple save system, as well as a money and selling system."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
             }
             CLAY(CLAY_ID("DungeonPageRightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 200) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
                 CLAY(CLAY_ID("DungeonPageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {743, 1456}, .sourceURL = CLAY_STRING("/images/dm.webp") } )) {}
@@ -163,10 +172,10 @@ void LCNPage(DeviceType type){
                 CLAY(CLAY_ID("LCNPageRightText"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.50) },.layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
                     CLAY_TEXT(CLAY_STRING("Lua Console Notepad (LCN)"), CLAY_TEXT_CONFIG({ .fontSize = 52, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_LIGHT }));
                     CLAY(CLAY_ID("LCNSpacer"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 16) } })) {}
-                    CLAY_TEXT(CLAY_STRING("This is interesting and started as class assignment to make a notepad in whatever language that runs in terminal."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
-                    CLAY_TEXT(CLAY_STRING("I wanted it to be portable and lightweight so it stayed in Lua even though i could use Java or Python"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
-                    CLAY_TEXT(CLAY_STRING("It came out better than i expected. It's very 'Vim' like since you use command line to do stuff."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
-                    CLAY_TEXT(CLAY_STRING("It also does not use a single library, everything is written manually (Maybe because there was no library to use :P)"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
+                    CLAY_TEXT(CLAY_STRING("This started as a class assignment to create a notepad in any language that runs in the terminal."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
+                    CLAY_TEXT(CLAY_STRING("I wanted it to be portable and lightweight, so I stuck with Lua, even though I could have used Java or Python."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
+                    CLAY_TEXT(CLAY_STRING("It turned out better than I expected. It's very 'Vim'-like since you use the command line to interact with it."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
+                    CLAY_TEXT(CLAY_STRING("Also, it doesn't rely on any external libraries; everything is written manually (though, to be fair, there wasn't a library to use :P)."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
                     CLAY(CLAY_ID("LinkLCNOuter"), CLAY_LAYOUT(), CLAY_RECTANGLE({ .link = CLAY_STRING("https://github.com/aktr0s/LuaConsoleNotepad"), .color = {0,0,0,0} })) {
                         CLAY_TEXT(CLAY_STRING("Click here to check github page."), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = COLOR_ORANGE }));
                     }
@@ -179,10 +188,10 @@ void LCNPage(DeviceType type){
             CLAY(CLAY_ID("LCNPageLeftText"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
                 CLAY_TEXT(CLAY_STRING("Lua Console Notepad (LCN)"), CLAY_TEXT_CONFIG({ .fontSize = 48, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_LIGHT }));
                 CLAY(CLAY_ID("LCNPageSpacer"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 16) } })) {}
-                CLAY_TEXT(CLAY_STRING("This is interesting and started as class assignment to make a notepad in whatever language that runs in terminal."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
-                CLAY_TEXT(CLAY_STRING("I wanted it to be portable and lightweight so it stayed in Lua even though i could use Java or Python"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
-                CLAY_TEXT(CLAY_STRING("It came out better than i expected. It's very 'Vim' like since you use command line to do stuff."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
-                CLAY_TEXT(CLAY_STRING("It also does not use a single library, everything is written manually (Maybe because there was no library to use :P)"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
+                CLAY_TEXT(CLAY_STRING("This started as a class assignment to create a notepad in any language that runs in the terminal."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
+                CLAY_TEXT(CLAY_STRING("I wanted it to be portable and lightweight, so I stuck with Lua, even though I could have used Java or Python."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
+                CLAY_TEXT(CLAY_STRING("It turned out better than I expected. It's very 'Vim'-like since you use the command line to interact with it."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
+                CLAY_TEXT(CLAY_STRING("Also, it doesn't rely on any external libraries; everything is written manually (though, to be fair, there wasn't a library to use :P)."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
             }
             CLAY(CLAY_ID("LCNPageRightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
                 CLAY(CLAY_ID("LCNPageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {845, 503}, .sourceURL = CLAY_STRING("/images/lcn.webp") } )) {}
@@ -198,10 +207,10 @@ void NixiePage(DeviceType type) {
                 CLAY(CLAY_ID("NixiePageLeftText"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.5) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
                     CLAY_TEXT(CLAY_STRING("NixieTextFX"), CLAY_TEXT_CONFIG({ .fontSize = 52, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
                     CLAY(CLAY_ID("NixiePageSpacer"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 16) } })) {}
-                    CLAY_TEXT(CLAY_STRING("I really wanted to make something object oriented and test SDL2 and was obsessed with Nixie Tubes."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-                    CLAY_TEXT(CLAY_STRING("Thats how i got the idea to make it. It is designed to just add the repo files into your SDL2 project and use it"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-                    CLAY_TEXT(CLAY_STRING("It has basic control: Position, Size, Flicker (flicker like a light bulb), Clock mode and even more!"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-                    CLAY_TEXT(CLAY_STRING("There is included documentation generated by Doxygen in the repo."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("I really wanted to create something object-oriented, test SDL2, and at the time, I was obsessed with Nixie tubes."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("That's how the idea for this project came about. It's designed to let you simply add files from the repository into your SDL2 project and use it almost like a library."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("It offers basic controls like position, size, flicker (like a light bulb), clock mode, and more!"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("The repository also includes documentation generated by Doxygen."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
                     CLAY(CLAY_ID("LinkNixieOuter"), CLAY_LAYOUT(), CLAY_RECTANGLE({ .link = CLAY_STRING("https://github.com/aktr0s/NixieTextFX"), .color = {0,0,0,0} })) {
                         CLAY_TEXT(CLAY_STRING("Click here to check github page."), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = COLOR_ORANGE }));
                     }
@@ -216,9 +225,9 @@ void NixiePage(DeviceType type) {
             CLAY(CLAY_ID("NixiePageLeftText"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
                 CLAY_TEXT(CLAY_STRING("NixieTextFX"), CLAY_TEXT_CONFIG({ .fontSize = 48, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
                 CLAY(CLAY_ID("NixiePageSpacer"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 16) } })) {}
-                CLAY_TEXT(CLAY_STRING("I really wanted to make something object oriented and test SDL2 and was obsessed with Nixie Tubes."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-                CLAY_TEXT(CLAY_STRING("Thats how i got the idea to make it. It is designed to just add the repo files into your SDL2 project and use it"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-                CLAY_TEXT(CLAY_STRING("It has basic control: Position, Size, Flicker (flicker like a light bulb), Clock mode and even more!"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                CLAY_TEXT(CLAY_STRING("I really wanted to create something object-oriented, test SDL2, and at the time, I was obsessed with Nixie tubes."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("That's how the idea for this project came about. It's designed to let you simply add files from the repository into your SDL2 project and use it almost like a library."), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
+                    CLAY_TEXT(CLAY_STRING("It offers basic controls like position, size, flicker (like a light bulb), clock mode, and more!"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
             }
             CLAY(CLAY_ID("NixiePageRightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
                 CLAY(CLAY_ID("NixiePageRightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) } }), CLAY_IMAGE({ .sourceDimensions = {921, 392}, .sourceURL = CLAY_STRING("/images/ntf.webp") } )) {}
@@ -228,50 +237,40 @@ void NixiePage(DeviceType type) {
 }
 
 
-void CreditBlock(DeviceType type){
-    if (type == DESKTOP) {
-        CLAY(CLAY_ID("CreditBlockOuter"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) } })) {
-            CLAY(CLAY_ID("CreditBlockInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) }, .childAlignment = { .y = CLAY_ALIGN_Y_CENTER } }), CLAY_RECTANGLE({ .color = COLOR_RED })) {
-                Clay_TextElementConfig *textConfig = CLAY_TEXT_CONFIG({ .fontSize = 24, .fontId = FONT_ID_BODY_24, .textColor = COLOR_LIGHT });
-                CLAY(CLAY_ID("CreditTextBoxOuter"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .childAlignment = {0, CLAY_ALIGN_Y_CENTER}, .padding = {50,50,32, 32}, .childGap = 8 })) {
-                    CLAY(CLAY_ID("CreditBlockTextOuter1"), CLAY_LAYOUT({ .padding = {8,8,4, 4} }), CLAY_RECTANGLE({ .color = COLOR_RED_HOVER, .cornerRadius = CLAY_CORNER_RADIUS(8) })) {
-                        CLAY_TEXT(CLAY_STRING("Credits"), CLAY_TEXT_CONFIG({ .fontSize = 24, .fontId = FONT_ID_BODY_24, .textColor = COLOR_LIGHT }));
-                    }
-                    CLAY_TEXT(CLAY_STRING("This site is HEAVLILY Inspired by Nic Barker Clay Website Example"), textConfig);
-                    CLAY(CLAY_ID("LinkCreditWebsiteOuter"), CLAY_LAYOUT(), CLAY_RECTANGLE({ .link = CLAY_STRING("https://github.com/nicbarker/clay/tree/main/examples/clay-official-website"), .color = {0,0,0,0} })) {
-                        CLAY_TEXT(CLAY_STRING("Found right here."), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = COLOR_ORANGE }));
-                    }
-                    CLAY_TEXT(CLAY_STRING("'Aktr0s' name image was generated at www.textstudio.com"), textConfig);
-                    CLAY(CLAY_ID("LinkCreditTextImgOuter"), CLAY_LAYOUT(), CLAY_RECTANGLE({ .link = CLAY_STRING("https://www.textstudio.com"), .color = {0,0,0,0} })) {
-                        CLAY_TEXT(CLAY_STRING("Found right here."), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = COLOR_ORANGE }));
-                    }
-                    CLAY_TEXT(CLAY_STRING("If you got any concerns contact me on Twitter (X) at @Acer0sik"), textConfig);
-                }
-            }
-        }
-    } else if (type == MOBILE) {
-        CLAY(CLAY_ID("CreditBlockInner"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { CLAY_SIZING_GROW(0) } }), CLAY_RECTANGLE({ .color = COLOR_RED })) {
+void CreditBlock(DeviceType type) {
+    CLAY(CLAY_ID("CreditBlockOuter"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) } })) {
+        CLAY(CLAY_ID("CreditBlockInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0) }, .childAlignment = { .y = CLAY_ALIGN_Y_CENTER } }), CLAY_RECTANGLE({ .color = COLOR_RED })) {
             Clay_TextElementConfig *textConfig = CLAY_TEXT_CONFIG({ .fontSize = 24, .fontId = FONT_ID_BODY_24, .textColor = COLOR_LIGHT });
-            CLAY(CLAY_ID("CreditTextBoxOuter"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { CLAY_SIZING_GROW(0) }, .childAlignment = {0, CLAY_ALIGN_Y_CENTER}, .padding = {16,16,32, 32}, .childGap = 8 })) {
-                CLAY(CLAY_ID("CreditTextOuter"), CLAY_LAYOUT({ .padding = {8,8,4, 4} }), CLAY_RECTANGLE({ .color = COLOR_RED_HOVER, .cornerRadius = CLAY_CORNER_RADIUS(8) })) {
-                    CLAY_TEXT(CLAY_STRING("Credits"), CLAY_TEXT_CONFIG({ .fontSize = 24, .fontId = FONT_ID_BODY_24, .textColor = COLOR_LIGHT }));
+            CLAY(CLAY_ID("CreditTextBoxOuter"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .childAlignment = {0, CLAY_ALIGN_Y_CENTER}, .padding = {50,50,32, 32}, .childGap = 8 })) {
+                CLAY(CLAY_ID("CreditBlockTextOuter1"), CLAY_LAYOUT({ .padding = {12,12,8, 8} }), CLAY_RECTANGLE({ .color = COLOR_RED_HOVER, .cornerRadius = CLAY_CORNER_RADIUS(8) })) {
+                    CLAY_TEXT(CLAY_STRING("Credits"), CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_24, .textColor = COLOR_LIGHT }));
                 }
-                CLAY_TEXT(CLAY_STRING("This site is HEAVLILY Inspired by Nic Barker Clay Website Example"), textConfig);
-                CLAY(CLAY_ID("LinkCreditWebsiteOuter"), CLAY_LAYOUT(), CLAY_RECTANGLE({ .link = CLAY_STRING("https://github.com/nicbarker/clay/tree/main/examples/clay-official-website"), .color = {0,0,0,0} })) {
-                        CLAY_TEXT(CLAY_STRING("Found right here."), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = COLOR_ORANGE }));
-                    }
-                    CLAY_TEXT(CLAY_STRING("'Aktr0s' name image was generated at www.textstudio.com"), textConfig);
-                    CLAY(CLAY_ID("LinkCreditTextImgOuter"), CLAY_LAYOUT(), CLAY_RECTANGLE({ .link = CLAY_STRING("https://www.textstudio.com"), .color = {0,0,0,0} })) {
-                        CLAY_TEXT(CLAY_STRING("Found right here."), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = COLOR_ORANGE }));
-                    }
-                    CLAY_TEXT(CLAY_STRING("If you got any concerns contact me on Twitter (X) at @Acer0sik"), textConfig);
+                CLAY(CLAY_LAYOUT({ .layoutDirection = CLAY_LEFT_TO_RIGHT, .childGap = 8, .childAlignment = { .y = CLAY_ALIGN_Y_CENTER }})){
+                CLAY_TEXT(CLAY_STRING("This site is HEAVILY inspired by Nic Barker's Clay Website Example, which can be found"), textConfig);
+                CLAY(CLAY_LAYOUT({ .padding = {12, 12, 4, 4} }),
+                CLAY_RECTANGLE({ .cornerRadius = CLAY_CORNER_RADIUS(10), .link = CLAY_STRING("https://github.com/nicbarker/clay/tree/main/examples/clay-official-website"), .color = Clay_Hovered() ? COLOR_LIGHT_HOVER : COLOR_LIGHT }),
+                CLAY_BORDER_OUTSIDE_RADIUS(2, COLOR_LIGHT, 10)
+                ) {
+                    CLAY_TEXT(CLAY_STRING("Here"), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 22, .textColor = {61, 26, 5, 255} }));
                 }
+                }
+                CLAY(CLAY_LAYOUT({ .layoutDirection = CLAY_LEFT_TO_RIGHT, .childGap = 8, .childAlignment = { .y = CLAY_ALIGN_Y_CENTER }})){
+                CLAY_TEXT(CLAY_STRING("The 'Aktr0s' name image was generated at www.textstudio.com, and can be found"), textConfig);
+                CLAY(CLAY_LAYOUT({ .padding = {12, 12, 4, 4} }),
+                CLAY_RECTANGLE({ .cornerRadius = CLAY_CORNER_RADIUS(10), .link = CLAY_STRING("https://www.textstudio.com"), .color = Clay_Hovered() ? COLOR_LIGHT_HOVER : COLOR_LIGHT }),
+                CLAY_BORDER_OUTSIDE_RADIUS(2, COLOR_LIGHT, 10)
+                ) {
+                CLAY_TEXT(CLAY_STRING("Here"), CLAY_TEXT_CONFIG({ .disablePointerEvents = true, .fontId = FONT_ID_BODY_24, .fontSize = 22, .textColor = {61, 26, 5, 255} }));
+                }
+                }
+                CLAY_TEXT(CLAY_STRING("If you have any concerns, feel free to contact me on Twitter (X) at @Acer0sik."), textConfig);
+            }
         }
     }
 }
 
 
-Clay_RenderCommandArray CreateLayout(bool mobileScreen) {
+Clay_RenderCommandArray CreateLayout(bool mobileScreen, bool blink) {
     Clay_BeginLayout();
     CLAY(CLAY_ID("OuterContainer"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) } }), CLAY_RECTANGLE({ .color = COLOR_LIGHT })) {
         CLAY(CLAY_ID("Header"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIXED(50) }, .childAlignment = { 0, CLAY_ALIGN_Y_CENTER }, .childGap = 16, .padding = { 32,32,0,0 } })) {
@@ -305,14 +304,14 @@ Clay_RenderCommandArray CreateLayout(bool mobileScreen) {
             CLAY_BORDER({ .betweenChildren = {2, COLOR_RED} })
         ) {
             if (mobileScreen) {
-                LandingPage(MOBILE);
+                LandingPage(MOBILE, blink);
                 WelcomingBlocks(MOBILE);
                 DungeonMixPage(MOBILE);
                 LCNPage(MOBILE);
                 NixiePage(MOBILE);
                 CreditBlock(MOBILE);
             } else {
-                LandingPage(DESKTOP);
+                LandingPage(DESKTOP, blink);
                 WelcomingBlocks(DESKTOP);
                 DungeonMixPage(DESKTOP);
                 LCNPage(DESKTOP);
@@ -338,10 +337,11 @@ CLAY_WASM_EXPORT("UpdateDrawFrame") Clay_RenderCommandArray UpdateDrawFrame(floa
 
     Clay_SetPointerState((Clay_Vector2) {mousePositionX, mousePositionY}, isMouseDown || isTouchDown);
 
-    
+    if (deltaTime == deltaTime) {
+        if ((t += deltaTime) > 0.5f) t = 0, blink = !blink;
+    }
     bool isMobileScreen = windowWidth < 750;
     
-    return CreateLayout(isMobileScreen);
-    //----------------------------------------------------------------------------------
+    return CreateLayout(isMobileScreen, blink);
 }
 
