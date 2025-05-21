@@ -48,10 +48,11 @@ void LandingPage(DeviceType type, bool flick){
                 CLAY(CLAY_ID("LeftText"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_PERCENT(0.55f) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
                     CLAY_TEXT(CLAY_STRING("Hi, and welcome to my site! I'm a retro tech and electronics enthusiast, primarily programming in Java and C, with a passion for the obscure."), CLAY_TEXT_CONFIG({ .fontSize = 56, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
                     CLAY(CLAY_ID("LandingPageSpacer"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_GROW(0), .height = CLAY_SIZING_FIXED(32) } })) {}
+                    CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
                     if (blink) {
-                        CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!_"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                        CLAY_TEXT(CLAY_STRING("> _"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
                     } else {
-                        CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                        CLAY_TEXT(CLAY_STRING(">  "), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
                     }
                 }
                 CLAY(CLAY_ID("RightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.40) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
@@ -64,11 +65,12 @@ void LandingPage(DeviceType type, bool flick){
             CLAY(CLAY_ID("LeftText"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_GROW(0) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 8 })) {
                 CLAY_TEXT(CLAY_STRING("Hi, and welcome to my site! I'm a retro tech and electronics enthusiast, primarily programming in Java and C, with a passion for the obscure."), CLAY_TEXT_CONFIG({ .fontSize = 48, .fontId = FONT_ID_TITLE_56, .textColor = COLOR_RED }));
                 CLAY(CLAY_ID("LandingPageSpacer"), CLAY_LAYOUT({ .sizing = { .width = CLAY_SIZING_GROW(0), .height = CLAY_SIZING_FIXED(32) } })) {}
-                if (blink) {
-                    CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!_"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
-                } else {
-                    CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
-                }            
+                CLAY_TEXT(CLAY_STRING("> Go ahead, scroll down and see for yourself!"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                    if (blink) {
+                        CLAY_TEXT(CLAY_STRING("> _"), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                    } else {
+                        CLAY_TEXT(CLAY_STRING(">  "), CLAY_TEXT_CONFIG({ .fontSize = 36, .fontId = FONT_ID_TITLE_36, .textColor = COLOR_ORANGE }));
+                    }           
             }
             CLAY(CLAY_ID("RightImage"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_PERCENT(0.40) }, .childAlignment = {.x = CLAY_ALIGN_X_CENTER} })) {
                 CLAY(CLAY_ID("RightImageInner"), CLAY_LAYOUT({ .sizing = { CLAY_SIZING_GROW(.max = 568) }}), CLAY_IMAGE({ .sourceDimensions = {1080, 1080}, .sourceURL = CLAY_STRING("/images/pfp.webp")})) {}
@@ -88,16 +90,16 @@ void WelcomingBlocks(DeviceType type){
                     CLAY(CLAY_ID("TextOuter1"), CLAY_LAYOUT({ .padding = {8,8,4, 4} }), CLAY_RECTANGLE({ .color = COLOR_BLUE, .cornerRadius = CLAY_CORNER_RADIUS(8) })) {
                         CLAY_TEXT(CLAY_STRING("Here, Look!"), CLAY_TEXT_CONFIG({ .fontSize = 24, .fontId = FONT_ID_BODY_24, .textColor = COLOR_LIGHT }));
                     }
-                    CLAY_TEXT(CLAY_STRING("I love retro tech. Old computers, Learning how to switch 1B!ts0 & $Byt3s to make things work."), textConfig);
-                    CLAY_TEXT(CLAY_STRING("I also adore Physical Storage Media."), textConfig);
-                    CLAY_TEXT(CLAY_STRING("MO Disks, Floppy Disks, CD (Yes, they are considered obsolete :<), Tape Drives. You got it!"), textConfig);
+                    CLAY_TEXT(CLAY_STRING("I love retro tech — old computers, learning how to switch 1B!ts0 & $Byt3s to make things work."), textConfig);
+                    CLAY_TEXT(CLAY_STRING("I also adore physical storage media:"), textConfig);
+                    CLAY_TEXT(CLAY_STRING("MO disks, floppy disks, CDs (yes, they’re considered obsolete :<), and tape drives. You got it!"), textConfig);
                 }
                 CLAY(CLAY_ID("AboutGithubOuter"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { CLAY_SIZING_PERCENT(0.5f) }, .childAlignment = {0, CLAY_ALIGN_Y_CENTER}, .padding = {50,50,32,32}, .childGap = 8 })) {
                     CLAY(CLAY_ID("TextOuter2"), CLAY_LAYOUT({ .padding = {8,8,4, 4} }), CLAY_RECTANGLE({ .color = COLOR_BLUE, .cornerRadius = CLAY_CORNER_RADIUS(8) })) {
                         CLAY_TEXT(CLAY_STRING("About my Projects."), CLAY_TEXT_CONFIG({ .fontSize = 24, .fontId = FONT_ID_BODY_24, .textColor = COLOR_LIGHT }));
                     }
-                    CLAY_TEXT(CLAY_STRING("Below there are some of my lil projects I decided to make public."), textConfig);
-                    CLAY_TEXT(CLAY_STRING("Im also not very advanced in programming (at least in my opinion) \nSo please don’t treat my projects as bad, they are just to have fun and learn."), textConfig);
+                    CLAY_TEXT(CLAY_STRING("Below are some of my lil' projects I decided to make public."), textConfig);
+                    CLAY_TEXT(CLAY_STRING("I'm not very advanced in programming (at least in my opinion), \nso please don’t judge them too harshly — they’re just for fun and learning."), textConfig);
                 }
             }
         }
@@ -108,16 +110,16 @@ void WelcomingBlocks(DeviceType type){
                 CLAY(CLAY_ID("TextOuter"), CLAY_LAYOUT({ .padding = {8,8,4, 4} }), CLAY_RECTANGLE({ .color = COLOR_BLUE, .cornerRadius = CLAY_CORNER_RADIUS(8) })) {
                     CLAY_TEXT(CLAY_STRING("Here, Look!"), CLAY_TEXT_CONFIG({ .fontSize = 24, .fontId = FONT_ID_BODY_24, .textColor = COLOR_LIGHT }));
                 }
-                CLAY_TEXT(CLAY_STRING("I love retro tech. Old computers, Learning how to switch 1B!ts0 & $Byt3s to make things work."), textConfig);
-                CLAY_TEXT(CLAY_STRING("I also adore Physical Storage Media."), textConfig);
-                CLAY_TEXT(CLAY_STRING("MO Disks, Floppy Disks, CD (Yes, they are considered obsolete :<), Tape Drives. You got it!"), textConfig);
+                CLAY_TEXT(CLAY_STRING("I love retro tech — old computers, learning how to switch 1B!ts0 & $Byt3s to make things work."), textConfig);
+                CLAY_TEXT(CLAY_STRING("I also adore physical storage media:"), textConfig);
+                CLAY_TEXT(CLAY_STRING("MO disks, floppy disks, CDs (yes, they’re considered obsolete :<), and tape drives. You got it!"), textConfig);
             }
             CLAY(CLAY_ID("AboutGithubOuter"), CLAY_LAYOUT({ .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { CLAY_SIZING_GROW(0) }, .childAlignment = {0, CLAY_ALIGN_Y_CENTER}, .padding = {16, 16, 32, 32}, .childGap = 8 })) {
                 CLAY(CLAY_ID("TextOuter2"), CLAY_LAYOUT({ .padding = {8,8,4, 4} }), CLAY_RECTANGLE({ .color = COLOR_BLUE, .cornerRadius = CLAY_CORNER_RADIUS(8) })) {
                     CLAY_TEXT(CLAY_STRING("About my Projects."), CLAY_TEXT_CONFIG({ .fontSize = 24, .fontId = FONT_ID_BODY_24, .textColor = COLOR_LIGHT }));
                 }
-                CLAY_TEXT(CLAY_STRING("Below there are some of my lil projects I decided to make public."), textConfig);
-                CLAY_TEXT(CLAY_STRING("Im also not very advanced in programming (at least in my opinion) \nSo please don’t treat my projects as bad, they are just to have fun and learn."), textConfig);
+                CLAY_TEXT(CLAY_STRING("Below are some of my lil' projects I decided to make public."), textConfig);
+                CLAY_TEXT(CLAY_STRING("I'm not very advanced in programming (at least in my opinion), \nso please don’t judge them too harshly — they’re just for fun and learning."), textConfig);
             }
         }
     }
